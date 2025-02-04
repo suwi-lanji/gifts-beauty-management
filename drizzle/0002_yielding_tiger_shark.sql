@@ -1,0 +1,1 @@
+ALTER TABLE "gifts_beauty_orders" ADD COLUMN "date" date DEFAULT now();

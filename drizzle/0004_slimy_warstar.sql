@@ -1,0 +1,2 @@
+ALTER TABLE "gifts_beauty_products_to_orders" DROP CONSTRAINT "gifts_beauty_products_to_orders_product_id_order_id_pk";--> statement-breakpoint
+ALTER TABLE "gifts_beauty_products_to_orders" ADD COLUMN "id" varchar(255) PRIMARY KEY NOT NULL;
