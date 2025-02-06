@@ -114,9 +114,7 @@ export const columns: ColumnDef<Order>[] = [
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem onClick={() => void deleteOrder(product.id)}>Delete order</DropdownMenuItem>
-                        <DropdownMenuItem>
-                            <Link href={`/products/edit/${product.id}`}>Edit product</Link>
-                        </DropdownMenuItem>
+
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
