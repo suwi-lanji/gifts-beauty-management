@@ -25,6 +25,7 @@ export async function createProduct(values: z.infer<typeof ProductSchema>) {
     console.log(data)
     await db.insert(products).values(data)
     revalidatePath("/products")
+    revalidatePath("/orders")
 }
 
 export async function updateProduct(id: string, values: z.infer<typeof ProductSchema>) {
