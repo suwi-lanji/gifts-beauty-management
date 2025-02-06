@@ -22,7 +22,7 @@ const formSchema = z.object({
         .refine(file => file.type.startsWith('image/'), {
             message: "Only image files are allowed.",
         })
-        .refine(file => file.size <= 5 * 1024 * 1024, { // 5MB
+        .refine(file => file.size <= 15 * 1024 * 1024, { // 5MB
             message: "File size must be less than 5MB.",
         }).optional(),
     name: z.string(),
