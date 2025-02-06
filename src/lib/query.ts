@@ -3,9 +3,10 @@
 import { db } from "@/server/db"
 import { credits, expenses, orders, products, productsToOrders } from "@/server/db/schema"
 import { eq, gt } from "drizzle-orm"
+import { revalidatePath } from "next/cache"
 
 export const revenueOverview = async () => {
-    const data = await db.select().from(orders)
+    const data = await db.select().from(orders).execute()
     let total = 0
     data.map(entry => {
         total += entry.amount
@@ -14,13 +15,13 @@ export const revenueOverview = async () => {
 }
 
 export const productsSold = async () => {
-    const data = await db.select().from(productsToOrders)
+    const data = await db.select().from(productsToOrders).execute()
     
     return data.length
 }
 
 export const totalExpenses = async () => {
-    const data = await db.select().from(expenses)
+    const data = await db.select().from(expenses).execute()
     let total = 0
     data.map(entry => {
         total += entry.amount
@@ -29,7 +30,7 @@ export const totalExpenses = async () => {
 }
 
 export const totalCredits = async () => {
-    const data = await db.select().from(credits)
+    const data = await db.select().from(credits).execute()
     let total = 0
     data.map(entry => {
         total += entry.amount
@@ -38,37 +39,38 @@ export const totalCredits = async () => {
 }
 
 export const productsQuery = async () => {
-    const data = await db.select().from(products)
+    const data = await db.select().from(products).execute()
 
     return data
 }
 
 export const getProduct = async (id: string) => {
-    const data = await db.select().from(products).where(eq(products.id, id))
+    const data = await db.select().from(products).where(eq(products.id, id)).execute()
 
     return data[0]
 }
 
 export const getProducts = async () => {
-    const data = await db.select().from(products)
+    const data = await db.select().from(products).execute()
 
     return data
 }
 
 export const orderQuery = async () => {
-    const data = await db.select().from(orders)
+    const data = await db.select().from(orders).execute()
 
     return data
 }
 
 export const expensesQuery = async () => {
-    const data = await db.select().from(expenses)
+    const data = await db.select().from(expenses).execute()
 
     return data
 }
 
 export const creditsQuery = async () => {
-    const data = await db.select().from(credits)
+    const data = await db.select().from(credits).execute()
 
     return data
 }
+

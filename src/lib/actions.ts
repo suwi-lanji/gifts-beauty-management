@@ -6,15 +6,15 @@ import { credits, expenses, orders, products, productsToOrders } from '@/server/
 import { type ProductSchema } from '@/app/(main)/products/create/page'
 import { put } from '@vercel/blob'
 import { eq } from 'drizzle-orm'
-import { OrderSchema } from '@/components/create-order-form'
-import { ExpenseSchema } from '@/app/(main)/expenses/create/page'
-import { CreditSchema } from '@/app/(main)/credits/create/page'
+import { type OrderSchema } from '@/components/create-order-form'
+import { type ExpenseSchema } from '@/app/(main)/expenses/create/page'
+import { type CreditSchema } from '@/app/(main)/credits/create/page'
 
 
 // products
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createProduct(values: z.infer<typeof ProductSchema>) {
-    const { url } = await put(values.image!.name, values.image!, { access: 'public' });
+export async function createProduct(url: string, values: z.infer<typeof ProductSchema>) {
+    
     const data = {
         image: url,
         name: values.name,
@@ -22,10 +22,8 @@ export async function createProduct(values: z.infer<typeof ProductSchema>) {
         price: values.price,
         is_available: values.is_available
     }
-    console.log(data)
     await db.insert(products).values(data)
     revalidatePath("/products")
-    revalidatePath("/orders")
 }
 
 export async function updateProduct(id: string, values: z.infer<typeof ProductSchema>) {
@@ -60,6 +58,7 @@ export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
     const order = await db.insert(orders).values({amount: values.amount, date: values.date.toISOString().split('T')[0]}).returning({insertedId: orders.id})
 
     if(order[0]?.insertedId) {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         values.products.forEach(async (product) => {
             for(let i=0; i<product.quantity; i++) {
                 await db.insert(productsToOrders).values({orderId: order[0]!.insertedId, productId: product.id})
