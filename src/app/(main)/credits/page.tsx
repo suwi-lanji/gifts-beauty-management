@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { creditsQuery, expensesQuery } from "@/lib/query";
 import Link from "next/link";
 
+export const dynamic = 'force-dynamic'
 export default async function Page() {
     const data = await creditsQuery()
     console.log(data)

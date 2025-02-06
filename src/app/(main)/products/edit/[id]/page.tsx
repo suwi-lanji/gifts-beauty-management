@@ -1,6 +1,7 @@
 import ProductEditForm from "@/components/edit-product"
 import { getProduct } from "@/lib/query"
 
+export const dynamic = 'force-dynamic'
 export default async function Page({
     params,
 }: {
