@@ -37,6 +37,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import Link from "next/link"
+import { deleteProuct } from "@/lib/actions"
 
 export type Product = {
   id: string
@@ -130,7 +131,7 @@ export const columns: ColumnDef<Product>[] = [
               Copy product ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View product</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => deleteProuct(product.id)}>Delete product</DropdownMenuItem>
             <DropdownMenuItem>
               <Link href={`/products/edit/${product.id}`}>Edit product</Link>
             </DropdownMenuItem>

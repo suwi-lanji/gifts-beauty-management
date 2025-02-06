@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/table"
 import Link from "next/link"
 import { DatePicker } from "./date-picker"
+import { deleteOrder } from "@/lib/actions"
 
 export type Order = {
     id: string
@@ -109,10 +110,10 @@ export const columns: ColumnDef<Order>[] = [
                         <DropdownMenuItem
                             onClick={() => navigator.clipboard.writeText(product.id)}
                         >
-                            Copy product ID
+                            Copy order ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>View product</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => void deleteOrder(product.id)}>Delete order</DropdownMenuItem>
                         <DropdownMenuItem>
                             <Link href={`/products/edit/${product.id}`}>Edit product</Link>
                         </DropdownMenuItem>

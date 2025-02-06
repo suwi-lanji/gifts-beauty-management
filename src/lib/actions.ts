@@ -81,3 +81,15 @@ export const createCredit = async (values: z.infer<typeof CreditSchema>) => {
 
     revalidatePath("/credits")
 }
+
+export const deleteOrder = async (orderId: string) => {
+    await db.delete(orders).where(eq(orders.id, orderId))
+
+    revalidatePath("/orders")
+}
+
+export const deleteProuct = async (productId: string) => {
+    await db.delete(products).where(eq(products.id, productId))
+
+    revalidatePath("/products")
+}
