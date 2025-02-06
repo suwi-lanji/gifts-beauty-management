@@ -44,7 +44,8 @@ export default function ProductForm() {
     })
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
-        await createProduct(values)
+        const { url } = await put(values.image!.name, values.image!, { access: 'public' });
+        await createProduct(String(url), values)
         window.location.href = "/products"
     }
 

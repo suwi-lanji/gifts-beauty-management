@@ -2,6 +2,8 @@ import OverviewCard from "@/components/overview-card";
 import { productsSold, revenueOverview, totalCredits, totalExpenses } from "@/lib/query";
 import { Boxes, CreditCard, DollarSign, HandCoins } from "lucide-react";
 
+
+export const dynamic = 'force-dynamic'
 export default async function Page() {
 
     const revenueData = await revenueOverview();

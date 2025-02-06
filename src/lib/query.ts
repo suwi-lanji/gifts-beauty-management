@@ -2,9 +2,7 @@
 
 import { db } from "@/server/db"
 import { credits, expenses, orders, products, productsToOrders } from "@/server/db/schema"
-import { eq, gt } from "drizzle-orm"
-import { revalidatePath } from "next/cache"
-
+import { eq } from "drizzle-orm"
 export const revenueOverview = async () => {
     const data = await db.select().from(orders).execute()
     let total = 0
