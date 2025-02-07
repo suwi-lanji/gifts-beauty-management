@@ -55,19 +55,26 @@ export async function updateProduct(id: string, values: z.infer<typeof ProductSc
 // orders
 
 export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
-    const order = await db.insert(orders).values({amount: values.amount, date: values.date.toISOString().split('T')[0]}).returning({insertedId: orders.id})
+    // Convert the date to a local date string without timezone information
+    const localDate = new Date(values.date);
+    const year = localDate.getFullYear();
+    const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
+    const day = String(localDate.getDate()).padStart(2, '0');
 
-    if(order[0]?.insertedId) {
+    const formattedDate = `${year}-${month}-${day}`;
+
+    const order = await db.insert(orders).values({ amount: values.amount, date: formattedDate }).returning({ insertedId: orders.id });
+
+    if (order[0]?.insertedId) {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         values.products.forEach(async (product) => {
-            for(let i=0; i<product.quantity; i++) {
-                await db.insert(productsToOrders).values({orderId: order[0]!.insertedId, productId: product.id})
+            for (let i = 0; i < product.quantity; i++) {
+                await db.insert(productsToOrders).values({ orderId: order[0]!.insertedId, productId: product.id });
             }
         });
     }
-    revalidatePath("/orders")
-}
-
+    revalidatePath("/orders");
+};
 // expenses
 export const createExpense = async (values: z.infer<typeof ExpenseSchema>) => {
     await db.insert(expenses).values({name: values.name, category: values.category, amount: values.amount, date: values.date.toISOString().split('T')[0]})
