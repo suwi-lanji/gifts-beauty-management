@@ -23,7 +23,7 @@ import { createOrder } from "@/lib/actions"
 
 const formSchema = z.object({
     amount: z.number(),
-    date: z.date(),
+    date: z.string(),
     products: z.array(z.object({
         id: z.string(),
         amount: z.number(),
@@ -36,7 +36,7 @@ export default function OrderCreateForm({ products }: { products: Product[] }) {
         resolver: zodResolver(formSchema),
         defaultValues: {
             amount: 0,
-            date: new Date(),
+            date: "",
             products: []
         },
     })
@@ -76,7 +76,7 @@ export default function OrderCreateForm({ products }: { products: Product[] }) {
                         <FormItem className="grid">
                             <FormLabel>Date</FormLabel>
                             <FormControl>
-                                <DatePicker date={field.value} setDate={(date: Date) => {
+                                <DatePicker date={field.value} setDate={(date: string) => {
                                     field.onChange(date)
                                     console.log("order form date: ", field.value)
                                 }} />

@@ -13,7 +13,7 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker({ date, setDate }: { date: Date | null, setDate: (date: Date | null) => void }) {
+export function DatePicker({ date, setDate }: { date: Date | null, setDate: (date: string | null) => void }) {
     const [open, setOpen] = React.useState(false)
 
     return (
@@ -36,10 +36,16 @@ export function DatePicker({ date, setDate }: { date: Date | null, setDate: (dat
                     selected={date}
                     onSelect={(selectedDate) => {
                         if (selectedDate) {
-                            // Convert selectedDate to a local date string (no timezone)
-                            const localDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-                            console.log(localDate);
-                            setDate(localDate);
+                            const timeZone = "Africa/Lusaka";
+
+                            const formattedDate = new Intl.DateTimeFormat("en-CA", {
+                                timeZone,
+                                year: "numeric",
+                                month: "2-digit",
+                                day: "2-digit"
+                            }).format(selectedDate);
+
+                            setDate(formattedDate);
                         }
                         setOpen(false);
                     }}

@@ -38,7 +38,7 @@ import {
 } from "@/components/ui/table"
 import Link from "next/link"
 import { DatePicker } from "./date-picker"
-import { deleteOrder } from "@/lib/actions"
+import { deleteOrder, getDate } from "@/lib/actions"
 
 export type Order = {
     id: string
@@ -83,12 +83,31 @@ export const columns: ColumnDef<Order>[] = [
         accessorKey: "date",
         header: () => <div className="text-right">Date</div>,
         cell: ({ row }) => {
-            const date: Date = new Date(row.getValue("date"))
-            const year = date.getFullYear();
-            const month = date.toLocaleString('default', { month: 'long' }); // Full month name
-            const day = date.getDate();
+            const [formattedDate, setFormattedDate] = React.useState<string | null>(null);
 
-            return <div className="text-right text-xs font-medium">{`${month} ${day}, ${year}`}</div>
+            React.useEffect(() => {
+                const fetchDate = async () => {
+                    try {
+                        const date = await getDate(row.getValue("date"));
+                        if (date) {
+                            const year = date.getFullYear();
+                            const month = date.toLocaleString("default", { month: "long" });
+                            const day = date.getDate();
+                            setFormattedDate(`${month} ${day}, ${year}`);
+                        }
+                    } catch (error) {
+                        console.error("Error fetching date:", error);
+                    }
+                };
+
+                fetchDate();
+            }, [row]);
+
+            return (
+                <div className="text-right text-xs font-medium">
+                    {formattedDate ?? "Loading..."}
+                </div>
+            );
         },
     },
     {

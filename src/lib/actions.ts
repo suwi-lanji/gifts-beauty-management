@@ -58,7 +58,6 @@ export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
     // Convert the date to a local date string without timezone information
     console.log(values.date)
     const localDate = values.date;
-
     const formattedDate = localDate.toISOString().split("T")[0];
     console.log(formattedDate)
     const order = await db.insert(orders).values({ amount: values.amount, date: formattedDate }).returning({ insertedId: orders.id });
@@ -97,4 +96,7 @@ export const deleteProuct = async (productId: string) => {
     await db.delete(products).where(eq(products.id, productId))
 
     revalidatePath("/products")
+}
+export const getDate = async (dateString:string) => {
+    return new Date(dateString)
 }
