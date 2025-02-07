@@ -13,8 +13,8 @@ import { type CreditSchema } from '@/app/(main)/credits/create/page'
 
 // products
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function createProduct(url: string, values: z.infer<typeof ProductSchema>) {
-    
+export async function createProduct(values: z.infer<typeof ProductSchema>) {
+    const { url } = await put(values.image!.name, values.image!, { access: 'public' });
     const data = {
         image: url,
         name: values.name,
