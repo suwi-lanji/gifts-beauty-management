@@ -57,7 +57,7 @@ export async function updateProduct(id: string, values: z.infer<typeof ProductSc
 export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
     // Convert the date to a local date string without timezone information
     console.log(values.date)
-    const localDate = new Date(values.date);
+    const localDate = values.date;
 
     const formattedDate = localDate.toISOString().split("T")[0];
     console.log(formattedDate)
