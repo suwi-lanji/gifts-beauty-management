@@ -46,7 +46,7 @@ export default function OrderCreateForm({ products }: { products: Product[] }) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         void createOrder(values)
-        window.location.href = "/orders"
+        //window.location.href = "/orders"
     }
 
     return (
@@ -76,7 +76,10 @@ export default function OrderCreateForm({ products }: { products: Product[] }) {
                         <FormItem className="grid">
                             <FormLabel>Date</FormLabel>
                             <FormControl>
-                                <DatePicker date={field.value} setDate={(date: Date) => field.onChange(date)} />
+                                <DatePicker date={field.value} setDate={(date: Date) => {
+                                    field.onChange(date)
+                                    console.log("order form date: ", field.value)
+                                }} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>

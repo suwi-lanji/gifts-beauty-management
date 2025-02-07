@@ -36,15 +36,12 @@ export function DatePicker({ date, setDate }: { date: Date | null, setDate: (dat
                     selected={date}
                     onSelect={(selectedDate) => {
                         if (selectedDate) {
-                            // Normalize date to local time to avoid UTC offset issues
-                            const localDate = new Date(
-                                selectedDate.getFullYear(),
-                                selectedDate.getMonth(),
-                                selectedDate.getDate()
-                            )
-                            setDate(localDate)
+                            // Convert selectedDate to a local date string (no timezone)
+                            const localDate = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
+                            console.log(localDate);
+                            setDate(localDate);
                         }
-                        setOpen(false)
+                        setOpen(false);
                     }}
                     initialFocus
                 />

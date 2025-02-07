@@ -58,11 +58,8 @@ export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
     // Convert the date to a local date string without timezone information
     console.log(values.date)
     const localDate = new Date(values.date);
-    const year = localDate.getFullYear();
-    const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Months are zero-based
-    const day = String(localDate.getDate()).padStart(2, '0');
 
-    const formattedDate = `${year}-${month}-${day}`;
+    const formattedDate = localDate.toISOString().split("T")[0];
     console.log(formattedDate)
     const order = await db.insert(orders).values({ amount: values.amount, date: formattedDate }).returning({ insertedId: orders.id });
 
