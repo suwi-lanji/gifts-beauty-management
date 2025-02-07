@@ -13,9 +13,9 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover"
 
-export function DatePicker({ date, setDate }: { date: Date, setDate: any }) {
-
+export function DatePicker({ date, setDate }: { date: Date | null, setDate: (date: Date | null) => void }) {
     const [open, setOpen] = React.useState(false)
+
     return (
         <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
@@ -34,8 +34,16 @@ export function DatePicker({ date, setDate }: { date: Date, setDate: any }) {
                 <Calendar
                     mode="single"
                     selected={date}
-                    onSelect={(date) => {
-                        setDate(date)
+                    onSelect={(selectedDate) => {
+                        if (selectedDate) {
+                            // Normalize date to local time to avoid UTC offset issues
+                            const localDate = new Date(
+                                selectedDate.getFullYear(),
+                                selectedDate.getMonth(),
+                                selectedDate.getDate()
+                            )
+                            setDate(localDate)
+                        }
                         setOpen(false)
                     }}
                     initialFocus
