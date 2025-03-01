@@ -56,11 +56,7 @@ export async function updateProduct(id: string, values: z.infer<typeof ProductSc
 
 export const createOrder = async (values: z.infer<typeof OrderSchema>) => {
     // Convert the date to a local date string without timezone information
-    console.log(values.date)
-    const localDate = values.date;
-    const formattedDate = localDate.toISOString().split("T")[0];
-    console.log(formattedDate)
-    const order = await db.insert(orders).values({ amount: values.amount, date: formattedDate }).returning({ insertedId: orders.id });
+    const order = await db.insert(orders).values({ amount: values.amount, date: values.date }).returning({ insertedId: orders.id });
 
     if (order[0]?.insertedId) {
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
