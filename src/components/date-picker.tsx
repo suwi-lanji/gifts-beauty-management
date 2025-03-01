@@ -35,8 +35,11 @@ export function DatePicker({ date, setDate }: { date: Date | null, setDate: (dat
                     mode="single"
                     selected={date}
                     onSelect={(selectedDate) => {
-                        setDate(selectedDate.toISOString().split('T')[0]);
-                        console.log("Selected date", selectedDate)
+                        if (!selectedDate) return;
+                        
+                        // Use local timezone instead of UTC
+                        const localDateString = format(selectedDate, 'yyyy-MM-dd');
+                        setDate(localDateString);
                         setOpen(false);
                     }}
                     initialFocus
