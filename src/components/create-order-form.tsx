@@ -46,7 +46,7 @@ export default function OrderCreateForm({ products }: { products: Product[] }) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
         void createOrder(values)
-        //window.location.href = "/orders"
+        window.location.href = "/orders"
     }
 
     return (
