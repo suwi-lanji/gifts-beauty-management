@@ -36,6 +36,7 @@ export function DatePicker({ date, setDate }: { date: Date | null, setDate: (dat
                     selected={date}
                     onSelect={(selectedDate) => {
                         setDate(selectedDate.toISOString().split('T')[0]);
+                        console.log("Selected date", selectedDate)
                         setOpen(false);
                     }}
                     initialFocus
