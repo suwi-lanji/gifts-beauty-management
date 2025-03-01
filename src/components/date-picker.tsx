@@ -35,18 +35,7 @@ export function DatePicker({ date, setDate }: { date: Date | null, setDate: (dat
                     mode="single"
                     selected={date}
                     onSelect={(selectedDate) => {
-                        if (selectedDate) {
-                            const timeZone = "Africa/Lusaka";
-
-                            const formattedDate = new Intl.DateTimeFormat("en-CA", {
-                                timeZone,
-                                year: "numeric",
-                                month: "2-digit",
-                                day: "2-digit"
-                            }).format(selectedDate);
-
-                            setDate(formattedDate);
-                        }
+                        setDate(selectedDate);
                         setOpen(false);
                     }}
                     initialFocus
